@@ -1,5 +1,6 @@
 package Vista.configuradores;
 
+import Controlador.ClickBotonGuardar;
 import Controlador.ClickBotonPlay;
 import Modelo.tableroDeAlgoritmos.TableroAlgoritmos;
 import javafx.geometry.Pos;
@@ -12,6 +13,7 @@ public class ConfiguradorBottomMenu {
         Button botonEjecutarAlgoritmo = new Button("Ejecutar Algoritmo");
         botonEjecutarAlgoritmo.setOnAction(new ClickBotonPlay(tablero));
         Button botonGuardarAlgoritmo = new Button("Guardar Algoritmo");
+        botonGuardarAlgoritmo.setOnAction(new ClickBotonGuardar(tablero));
         bottomMenu.getChildren().addAll(botonEjecutarAlgoritmo, botonGuardarAlgoritmo);
         bottomMenu.setAlignment(Pos.CENTER_RIGHT);
     }
