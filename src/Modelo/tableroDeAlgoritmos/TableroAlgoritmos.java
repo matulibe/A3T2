@@ -1,8 +1,9 @@
 package Modelo.tableroDeAlgoritmos;
 
 import Modelo.bloque.Bloque;
-import Modelo.bloque.bloqueDeInversion.BloqueDeInversion;
-import Modelo.bloque.bloqueDeRepeticion.BloqueDeRepeticion;
+import Modelo.bloque.bloqueSecuencial.BloqueSecuencial;
+import Modelo.bloque.bloqueSecuencial.bloqueDeInversion.BloqueDeInversion;
+import Modelo.bloque.bloqueSecuencial.bloqueDeRepeticion.BloqueDeRepeticion;
 import Modelo.bloque.bloqueMovimiento.BloqueMovimientoAbajo;
 import Modelo.bloque.bloqueMovimiento.BloqueMovimientoArriba;
 import Modelo.bloque.bloqueMovimiento.BloqueMovimientoDerecha;
@@ -21,11 +22,13 @@ public class TableroAlgoritmos{
     private SectorDibujo tableroDeDibujo;
     private ArrayList <Bloque> secuenciaAEjeutar;
     private HashMap <String, Bloque> bloquesDisponibles;
+    private ArrayList <BloqueSecuencial> bloquesSecuenciales;
 
     public TableroAlgoritmos(){
         this.tableroDeDibujo = new SectorDibujo();
         this.personaje = new Personaje(tableroDeDibujo);
         this.secuenciaAEjeutar = new ArrayList <Bloque>();
+        this.bloquesSecuenciales = new ArrayList<BloqueSecuencial>();
         this.bloquesDisponibles = new HashMap<>();
         this.agregarBloquesBasicos(this.bloquesDisponibles);
     }
@@ -44,26 +47,44 @@ public class TableroAlgoritmos{
 
     // Encontrar la forma en la que la interfaz grafica le manda al tablero que modelo.bloque tiene que agregar
     public void agregarProximoBloqueAEjecutar( Bloque nuevoBloque){
-        secuenciaAEjeutar.add(nuevoBloque);
+        if(!bloquesSecuenciales.isEmpty()) {
+            bloquesSecuenciales.get(bloquesSecuenciales.size() - 1).agregarBloque(nuevoBloque);
+        } else {
+            secuenciaAEjeutar.add(nuevoBloque);
+        }
     }
 
-    //Posible nueva funcion para agregar el proximo bloque a ejecutar que contiene el hash map
-    public void agregarProximoBloqueAEjecutar( String nombreBloque){
-        Bloque nuevoBloque = bloquesDisponibles.get(nombreBloque);
-        secuenciaAEjeutar.add(nuevoBloque);
+    public void agregarBloqueSecuencial(BloqueSecuencial bloque){
+        agregarProximoBloqueAEjecutar(bloque);
+        bloquesSecuenciales.add(bloque);
+    }
+
+    public void limpiarSecuencia(){
+        secuenciaAEjeutar.clear();
+    }
+
+    public void cerrarSecuencia(){
+        if(!bloquesSecuenciales.isEmpty()) {
+            bloquesSecuenciales.remove(bloquesSecuenciales.size() - 1);
+        }
     }
 
     public void ejecutarSecuencia(){
-        for( Bloque bloque: secuenciaAEjeutar)
+        for( Bloque bloque: secuenciaAEjeutar) {
             bloque.ejecutarInstruccionSobrePersonaje(personaje);
+        }
     }
 
-    public void guardarAlgoritmo(String nombreAlgoritmo){
-        BloqueSecuenciaGuardada algoritmoAGuardar = new BloqueSecuenciaGuardada(secuenciaAEjeutar, nombreAlgoritmo);
-        bloquesDisponibles.put(nombreAlgoritmo, algoritmoAGuardar);
+    public void guardarAlgoritmo(String nombreAlgortimo){
+        BloqueSecuenciaGuardada algoritmoAGuardar = new BloqueSecuenciaGuardada(secuenciaAEjeutar, nombreAlgortimo);
+        bloquesDisponibles.put(nombreAlgortimo, algoritmoAGuardar);
     }
 
     public Personaje getPersonaje() {
         return personaje;
+    }
+
+    public Boolean listaSecuencialesIsVacio(){
+        return bloquesSecuenciales.isEmpty();
     }
 }

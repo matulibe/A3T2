@@ -1,14 +1,15 @@
 package Modelo.bloque.bloqueSecuenciaGuardada.test;
 
 import Modelo.bloque.Bloque;
-import Modelo.bloque.bloqueDeInversion.BloqueDeInversion;
-import Modelo.bloque.bloqueDeRepeticion.BloqueDeRepeticion;
 import Modelo.bloque.bloqueMovimiento.BloqueMovimientoAbajo;
 import Modelo.bloque.bloqueMovimiento.BloqueMovimientoArriba;
 import Modelo.bloque.bloqueMovimiento.BloqueMovimientoDerecha;
 import Modelo.bloque.bloqueMovimiento.BloqueMovimientoIzquierda;
 import Modelo.bloque.bloqueSecuenciaGuardada.BloqueSecuenciaGuardada;
+import Modelo.bloque.bloqueSecuencial.bloqueDeInversion.BloqueDeInversion;
+import Modelo.bloque.bloqueSecuencial.bloqueDeRepeticion.BloqueDeRepeticion;
 import junit.framework.TestCase;
+import Modelo.bloque.bloqueSecuencial.*;
 import Modelo.personaje.Personaje;
 import Modelo.tablero_dibujo.SectorDibujo;
 
